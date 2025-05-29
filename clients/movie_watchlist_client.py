@@ -1,9 +1,9 @@
-from clients.base_client import BaseZmqClient
+from clients.base_zmq_client import BaseZmqClient
 
 
 class MovieWatchlistClient(BaseZmqClient):
     def add_movie(self, movie_id, title, year):
-        return self.send_request({
+        return self._send_request({
             'type': 'query',
             'endpoint': 'add_movie',
             'params': {
@@ -14,7 +14,7 @@ class MovieWatchlistClient(BaseZmqClient):
         })
     
     def delete_movie(self, movie_id):
-        return self.send_request({
+        return self._send_request({
             'type': 'query',
             'endpoint': 'delete_movie',
             'params': {
@@ -23,7 +23,7 @@ class MovieWatchlistClient(BaseZmqClient):
         })
     
     def list_movies(self):
-        return self.send_request({
+        return self._send_request({
             'type': 'query',
             'endpoint': 'list_movies',
             'params': {}
