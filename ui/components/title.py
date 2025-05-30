@@ -1,21 +1,23 @@
-from .utils import center_text, get_divider
+from .utils import apply_spacing, center_text, build_divider
 
 
 def render(component_props):
-    content = component_props['content']
-    show_icons = content.get('icon', True)
-    title_text = content['text']
+    style = component_props.get('style', {})
+    show_icons = style.get('icon', True)
+    title_text = component_props['text']
+
+    if style.get('uppercase', False):
+        title_text = title_text.upper()
 
     if show_icons:
-        icon = content['icon']
-        decorated_title = f'{icon}  {title_text}  {icon}'
+        icon = component_props['icon']
+        title = f'{icon}  {title_text}  {icon}'
     else:
-        decorated_title = f'{title_text}'
+        title = f'{title_text}'
 
-    title_formatted = center_text(decorated_title)
-    divider = get_divider()
+    title = center_text(title)
+    divider = build_divider()
 
-    print(divider)
-    print(title_formatted)
-    print(divider)
-    print()
+    output = f'{divider}\n{title}\n{divider}'
+    output = apply_spacing(output, component_props)
+    print(output)

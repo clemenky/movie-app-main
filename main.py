@@ -1,34 +1,13 @@
 import os
-import shutil
 
 import sections
 from core.global_context import app_context
 
 
 screen_manager = app_context.screen_manager
-a = """
-====================================================
-                   🏠  Home  🏠
-====================================================
 
-Please select an option below:
-
-[1] 🔍  Movie Search       - Search for specific movies
-[2] 🌟  Movie Discovery    - Discover new or trending titles
-[3] 📋  Movie Watchlist    - View and manage your watchlist
-[4] ⭐  Movie Ratings      - See or give movie ratings
-[5] 🪧  Title Screen
-[6] ❌  Exit
-
-====================================================
-          Enter the number of your choice:
-"""
 class MovieApp:
     def __init__(self):
-        #print(a)
-        self.console_width = shutil.get_terminal_size().lines
-        self.console_height = shutil.get_terminal_size().columns
-        #print(self.console_width, self.console_height)
 
         self.next_screen_key = 'home'
         self.next_screen_params = {}
@@ -57,7 +36,7 @@ class MovieApp:
         if screen_manager.is_stackable(screen_key):
                 self.navigation_stack.append((screen_key, screen_params))
 
-        # self._clear_screen()
+        self._clear_screen()
         self.next_screen_key, self.next_screen_params = screen_function(**screen_params)
 
     def _navigate_home(self):

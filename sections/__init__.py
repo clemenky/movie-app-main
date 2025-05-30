@@ -1,1 +1,2 @@
 import sections.home_section
+import sections.movie_search_section
