@@ -3,53 +3,63 @@ import sys
 from globals import INPUT_SYMBOL
 
 
-def get_user_selection(input_options, output_params):
-    action = get_user_selected_action(input_options)
-    return action
+def get_user_selection(input_config):
+    mode = input_config.get('mode')
+    options = input_config.get('options', [])
 
-def get_user_selected_action(input_options):
+    if mode == 'text':
+        return get_text_input(options)
+    elif mode == 'selection':
+        return get_selection_input(options)
+
+def get_text_input(options):
+    option = options[0]
+    param = option['param']
+    validate = option.get('validate', lambda x: True)
+    action = option.get('action', '')
+
     error_printed = False
-
     while True:
         user_input = input(INPUT_SYMBOL + ' ').strip().lower()
 
-        if is_valid_option(user_input, input_options):
-            return get_action_for_input(user_input, input_options)
+        if validate(user_input):
+            return action, {param: user_input}
         
-        if error_printed:
-            move_console_cursor_up(1)
-            clear_console_line()
-        
-        move_console_cursor_up(1)
-        clear_console_line()
-        print("Invalid input. Please try again.")
-
+        print_input_error(error_printed)
         error_printed = True
 
-def is_valid_option(user_input, input_options):
-    for option in input_options:
-        if user_input == option.get('input'):
-            return True
-    
-    return False
+def get_selection_input(options):
+    valid_inputs = {opt.get('input'): opt for opt in options}
 
-def get_action_for_input(user_input, input_options):
-    for option in input_options:
-        if user_input == option.get('input'):
-            return option.get('action', '')
-    
-    return ''
+    error_printed = False
+    while True:
+        user_input = input(INPUT_SYMBOL + ' ').strip().lower()
 
+        if user_input in valid_inputs:
+            action = valid_inputs[user_input].get('action', '')
+            return action, {}
+        
+        print_input_error(error_printed)
+        error_printed = True
+
+def print_input_error(error_printed):
+    if error_printed:
+        clear_previous_line()
+    clear_previous_line()
+    print("Invalid input. Please try again.")
+    flush_console()
+
+def clear_previous_line():
+    move_console_cursor_up()
+    clear_console_line()
+    flush_console()
 
 def clear_console_line():
     sys.stdout.write('\x1b[2K')
     sys.stdout.write('\r')
 
-def move_console_cursor_up(lines=1):
-    sys.stdout.write(f'\x1b[{lines}A')
-
-def move_console_cursor_down(lines=1):
-    sys.stdout.write(f'\x1b[{lines}B')
+def move_console_cursor_up():
+    sys.stdout.write(f'\x1b[1A')
 
 def flush_console():
     sys.stdout.flush()

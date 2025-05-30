@@ -15,8 +15,8 @@ input_config = {
 screen = [
     {
         'component': 'title',
-        'icon': MOVIE_SEARCH_ICONS['search_by_title'],
-        'text': 'Search by Title',
+        'icon': MOVIE_SEARCH_ICONS['search_by_id'],
+        'text': 'Search by TMDB ID',
         'style': {
             'icon': True,
             'spacing_after': 1
@@ -24,6 +24,6 @@ screen = [
     },
     {
         'component': 'text',
-        'text': 'Enter movie title:'
+        'text': 'Enter TMDB ID:'
     }
 ]

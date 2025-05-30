@@ -1,34 +1,35 @@
 from globals import UI_ICONS, MOVIE_SEARCH_ICONS
 
 
-menu_options = [
-    {
-        'type': 'static',
-        'input': '1',
-        'icon': MOVIE_SEARCH_ICONS['search_by_title'],
-        'label': 'By Title',
-        'action': ''
-    },
-    {
-        'type': 'static',
-        'input': '2',
-        'icon': MOVIE_SEARCH_ICONS['search_by_tmdb_id'],
-        'label': 'By TMDB ID',
-        'action': '',
-        'style': {
-            'spacing_after': 1
+input_config = {
+    'mode': 'selection',
+    'options': [
+        {
+            'kind': 'static',
+            'input': '1',
+            'icon': MOVIE_SEARCH_ICONS['search_by_title'],
+            'label': 'By Title',
+            'action': 'movie_search.search_by_title_screen'
+        },
+        {
+            'kind': 'static',
+            'input': '2',
+            'icon': MOVIE_SEARCH_ICONS['search_by_id'],
+            'label': 'By TMDB ID',
+            'action': 'movie_search.search_by_id_screen',
+            'style': {
+                'spacing_after': 1
+            }
+        },
+        {
+            'kind': 'static',
+            'input': 'b',
+            'icon': UI_ICONS['back'],
+            'label': 'Back',
+            'action': 'back'
         }
-    },
-    {
-        'type': 'static',
-        'input': 'b',
-        'icon': UI_ICONS['back'],
-        'label': 'Back',
-        'action': 'back'
-    }
-]
-
-input_options = [*menu_options]
+    ]
+}
 
 screen = [
     {
@@ -43,7 +44,7 @@ screen = [
     {
         'component': 'menu',
         'prompt': 'Select a search option:',
-        'options': menu_options,
+        'options': input_config['options'],
         'style': {
             'icons': True,
             'option_format': 'square_brackets',
