@@ -46,11 +46,11 @@ def build_main_text(option_props, option_format='none', show_icon=False):
     icon = option_props.get('icon', '')
 
     input_prefix, input_suffix = OPTION_FORMATS.get(option_format, ('', ''))
-    input_formatted = f'{input_prefix}{option_input}{input_suffix}'
+    input_formatted = f'{input_prefix}{option_input}{input_suffix} '
 
     parts = [input_formatted]
     if show_icon:
-        parts.append(f' {icon} ')
+        parts.append(f'{icon} ')
     parts.append(label)
 
     return ''.join(parts)

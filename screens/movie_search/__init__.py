@@ -1,3 +1,4 @@
 import screens.movie_search.movie_search_screen
 import screens.movie_search.search_by_title_screen
 import screens.movie_search.search_by_id_screen
+import screens.movie_search.search_results_screen

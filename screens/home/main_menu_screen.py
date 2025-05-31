@@ -61,7 +61,7 @@ input_config = {
     ]
 }
 
-screen = [
+screen_components = [
     {
         'component': 'title',
         'icon': UI_ICONS['home'],

@@ -5,6 +5,7 @@ input_config = {
     'mode': 'text',
     'options': [
         {
+            'kind': 'text',
             'param': 'query',
             'validate': lambda x: x.strip() != '',
             'action': 'movie_search.search_results_screen'
@@ -12,7 +13,7 @@ input_config = {
     ]
 }
 
-screen = [
+screen_components = [
     {
         'component': 'title',
         'icon': MOVIE_SEARCH_ICONS['search_by_id'],

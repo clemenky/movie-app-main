@@ -34,10 +34,10 @@ class MovieApp:
         screen_function = screen_manager.get_screen_function(screen_key)
         
         if screen_manager.is_stackable(screen_key):
-                self.navigation_stack.append((screen_key, screen_params))
+            self.navigation_stack.append((screen_key, screen_params))
 
         self._clear_screen()
-        self.next_screen_key, self.next_screen_params = screen_function(**screen_params)
+        self.next_screen_key, self.next_screen_params = screen_function(screen_params)
 
     def _navigate_home(self):
         home_key = screen_manager.home_screen_key

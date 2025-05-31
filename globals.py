@@ -15,6 +15,7 @@ UI_ICONS = {
 MOVIE_SEARCH_ICONS = {
     'search_by_title': '🎬',
     'search_by_id': '🆔',
+    'search_results': '🎥'
 }
 
 DIVIDER_WIDTH = 64
