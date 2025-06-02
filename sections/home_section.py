@@ -4,5 +4,5 @@ import screens.home as home_screens
 
 
 @app_context.screen_manager.register('home.main_menu_screen', stackable=True)
-def main_menu_screen(**kwargs):
+def main_menu_screen(context):
     return handle_screen(home_screens, 'main_menu_screen')

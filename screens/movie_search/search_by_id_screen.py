@@ -6,9 +6,9 @@ input_config = {
     'options': [
         {
             'kind': 'text',
-            'param': 'query',
             'validate': lambda x: x.strip() != '',
-            'action': 'movie_search.search_results_screen'
+            'target': ('movie_search.movie_details_screen', {}),
+            'target_param': 'movie_id'
         }
     ]
 }

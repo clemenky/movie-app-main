@@ -9,14 +9,14 @@ input_config = {
             'input': '1',
             'icon': MOVIE_SEARCH_ICONS['search_by_title'],
             'label': 'By Title',
-            'action': 'movie_search.search_by_title_screen'
+            'target': ('movie_search.search_by_title_screen', {})
         },
         {
             'kind': 'static',
             'input': '2',
             'icon': MOVIE_SEARCH_ICONS['search_by_id'],
             'label': 'By TMDB ID',
-            'action': 'movie_search.search_by_id_screen',
+            'target': ('movie_search.search_by_id_screen', {}),
             'style': {
                 'spacing_after': 1
             }
@@ -26,7 +26,7 @@ input_config = {
             'input': 'b',
             'icon': UI_ICONS['back'],
             'label': 'Back',
-            'action': 'back'
+            'target': ('back', {})
         }
     ]
 }

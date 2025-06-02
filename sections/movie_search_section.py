@@ -5,31 +5,36 @@ from config import MAX_SEARCH_RESULTS_PAGES
 
 
 @app_context.screen_manager.register('movie_search.movie_search_screen', stackable=True)
-def movie_search_screen(params):
+def movie_search_screen(context):
     return handle_screen(movie_search_screens, 'movie_search_screen')
 
 @app_context.screen_manager.register('movie_search.search_by_title_screen', stackable=False)
-def search_by_title_screen(params):
-    action, params = handle_screen(movie_search_screens, 'search_by_title_screen')
-    params['search_type'] = 'title'
-    return action, params
+def search_by_title_screen(context):
+    return handle_screen(movie_search_screens, 'search_by_title_screen')
 
 @app_context.screen_manager.register('movie_search.search_by_id_screen', stackable=False)
-def search_by_id_screen(params):
-    action, params = handle_screen(movie_search_screens, 'search_by_id_screen')
-    params['search_type'] = 'id'
-    return action, params
+def search_by_id_screen(context):
+    return handle_screen(movie_search_screens, 'search_by_id_screen')
 
 # REMOVE SEARCH TYPE AND MAKE SURE SEARCH BY ID DOESNT POINT HERE, SHOULD GO DIRECTLY TO DISPLAYING MOVIE NOT SEARCH RESULTS
 @app_context.screen_manager.register('movie_search.search_results_screen', stackable=True)
-def search_results_screen(params):
-    print(params)
-    search_query = params.get('query')
-    page = params.get('page', 1)
+def search_results_screen(context):
+    print(context)
+    search_query = context.get('search_query')
+    page = context.get('page', 1)
 
-    full_results = app_context.clients.movie_search_client.search_by_title(search_query, page)
-    search_results = full_results['result']['results']
-    total_pages = min(full_results['result'].get('total_pages', 1), MAX_SEARCH_RESULTS_PAGES)
+    search_response = app_context.clients.movie_search_client.search_by_title(search_query, page)
+    movie_results = search_response['result']['results']
+    total_pages = min(search_response['result'].get('total_pages', 1), MAX_SEARCH_RESULTS_PAGES)
+
+    movie_input_options = []
+    for index, result in enumerate(movie_results):
+        input_option = {
+            'kind': 'static',
+            'input': f'{index + 1}',
+            'target': ('movie_search.movie_details_screen', {'movie_id': result['id']})
+        }
+        movie_input_options.append(input_option)
 
     shared_options = []
 
@@ -38,7 +43,7 @@ def search_results_screen(params):
             'kind': 'static',
             'input': 'p',
             'label': 'Previous page',
-            'action': ''
+            'target': 'movie_search.search_results_screen'
         })
     
     if page < total_pages:
@@ -46,7 +51,7 @@ def search_results_screen(params):
             'kind': 'static',
             'input': 'n',
             'label': 'Next page',
-            'action': ''
+            'target': 'movie_search.search_results_screen'
         })
 
     dynamic_screen_components = {
@@ -60,7 +65,7 @@ def search_results_screen(params):
             },
             {
                 'component': 'text',
-                'text': format_search_results(search_results),
+                'text': format_search_results(movie_results),
                 'style': {
                     'spacing_after': 1
                 }
@@ -78,7 +83,7 @@ def search_results_screen(params):
     }
     
     dynamic_input_options = {
-        'dynamic_commands': [*shared_options]
+        'dynamic_commands': [*shared_options, *movie_input_options]
     }
 
     
@@ -86,6 +91,7 @@ def search_results_screen(params):
     return handle_screen(movie_search_screens, 'search_results_screen', dynamic_screen_components, dynamic_input_options)
 
 
+# if not reused, combine input option generating for movie numbers with this
 def format_search_results(search_results):
     formatted_results = []
     for index, result in enumerate(search_results):
@@ -95,3 +101,18 @@ def format_search_results(search_results):
         formatted_results.append(f'{index + 1}. {result['title']} ({release_year})')
     
     return '\n'.join(formatted_results)
+
+
+
+@app_context.screen_manager.register('movie_search.movie_details_screen', stackable=True)
+def movie_details_screen(context):
+    movie_id = context.get('movie_id')
+    movie_details_response = app_context.clients.movie_search_client.get_movie_details(movie_id)
+    movie_details = movie_details_response['result']
+    get_movie_details_str(movie_details)
+    return handle_screen(movie_search_screens, 'movie_details_screen')
+
+
+
+def get_movie_details_str(movie_details):
+    details_str = ''

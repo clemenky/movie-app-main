@@ -37,12 +37,13 @@ class MovieApp:
             self.navigation_stack.append((screen_key, screen_params))
 
         self._clear_screen()
+        print(screen_params)
         self.next_screen_key, self.next_screen_params = screen_function(screen_params)
 
     def _navigate_home(self):
         home_key = screen_manager.home_screen_key
         self.navigation_stack = [(home_key, self.next_screen_params)]
-        self.next_screen_key, self.next_screen_params = screen_manager.get_screen_function(home_key)()
+        self.next_screen_key, self.next_screen_params = screen_manager.get_screen_function(home_key)(self.next_screen_params)
     
     def _navigate_back(self):
         self.navigation_stack.pop()

@@ -10,7 +10,7 @@ input_config = {
             'icon': UI_ICONS['movie_search'],
             'label': 'Movie Search',
             'description': 'Search for specific movies',
-            'action': 'movie_search.movie_search_screen'
+            'target': ('movie_search.movie_search_screen', {})
         },
         {
             'kind': 'static',
@@ -18,7 +18,7 @@ input_config = {
             'icon': UI_ICONS['movie_discovery'],
             'label': 'Movie Discovery',
             'description': 'Browse trending and recommended movies',
-            'action': ''
+            'target': ('', {})
         },
         {
             'kind': 'static',
@@ -26,7 +26,7 @@ input_config = {
             'icon': UI_ICONS['movie_watchlist'],
             'label': 'Movie Watchlist',
             'description': 'View and manage your watchlist',
-            'action': ''
+            'target': ('', {})
         },
         {
             'kind': 'static',
@@ -34,7 +34,7 @@ input_config = {
             'label': 'Movie Ratings',
             'icon': UI_ICONS['movie_ratings'],
             'description': 'Track your favorite movies',
-            'action': ''
+            'target': ('', {})
         },
         {
             'kind': 'static',
@@ -42,21 +42,21 @@ input_config = {
             'icon': UI_ICONS['login'],
             'label': 'Login',
             'description': 'Required for movie watchlist and ratings',
-            'action': ''
+            'target': ('', {})
         },
         {
             'kind': 'static',
             'input': '9',
             'icon': UI_ICONS['title_screen'],
             'label': 'Title Screen',
-            'action': ''
+            'target': ('', {})
         },
         {
             'kind': 'static',
             'input': '0',
             'icon': UI_ICONS['exit'],
             'label': 'Exit',
-            'action': 'exit'
+            'target': ('exit', {})
         }
     ]
 }

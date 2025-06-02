@@ -6,13 +6,13 @@ persistent_menu_options = [
         'kind': 'static',
         'input': 'b',
         'label': 'Back',
-        'action': 'back'
+        'target': ('back', {})
     },
     {
         'kind': 'static',
         'input': 'h',
         'label': 'Home',
-        'action': 'home'
+        'target': ('home', {})
     }
 ]
 

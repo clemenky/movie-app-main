@@ -1,6 +1,7 @@
 import sys
 
-from globals import INPUT_SYMBOL
+
+INPUT_SYMBOL = '>'
 
 
 def get_user_selection(input_config):
@@ -14,36 +15,39 @@ def get_user_selection(input_config):
 
 def get_text_input(options):
     option = options[0]
-    param = option['param']
-    validate = option.get('validate', lambda x: True)
-    action = option.get('action', '')
 
-    error_printed = False
+    param_name = option['target_param']
+    validate_input = option.get('validate', lambda x: True)
+    screen_key, screen_params = option.get('target', ('', {}))
+
+    error_shown = False
+
     while True:
         user_input = input(INPUT_SYMBOL + ' ').strip().lower()
 
-        if validate(user_input):
-            return action, {param: user_input}
+        if validate_input(user_input):
+            screen_params[param_name] = user_input
+            return screen_key, screen_params
         
-        print_input_error(error_printed)
-        error_printed = True
+        print_input_error(error_shown)
+        error_shown = True
 
 def get_selection_input(options):
-    valid_inputs = {opt.get('input'): opt for opt in options}
+    input_map = {opt.get('input'): opt for opt in options}
 
-    error_printed = False
+    error_shown = False
     while True:
         user_input = input(INPUT_SYMBOL + ' ').strip().lower()
 
-        if user_input in valid_inputs:
-            action = valid_inputs[user_input].get('action', '')
-            return action, {}
+        if user_input in input_map:
+            target = input_map[user_input].get('target', ('', {}))
+            return target
         
-        print_input_error(error_printed)
-        error_printed = True
+        print_input_error(error_shown)
+        error_shown = True
 
-def print_input_error(error_printed):
-    if error_printed:
+def print_input_error(error_shown):
+    if error_shown:
         clear_previous_line()
     clear_previous_line()
     print("Invalid input. Please try again.")
