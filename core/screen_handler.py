@@ -1,3 +1,5 @@
+import copy
+
 import ui.screen_renderer as screen_renderer
 import core.input_handler as input_handler
 
@@ -8,8 +10,8 @@ def handle_screen(screen_module, screen_name, dynamic_screen_components=None, dy
     if dynamic_input_options is None:
         dynamic_input_options = {}
 
-    component_props = getattr(screen_module, screen_name).screen_components
-    input_config = getattr(screen_module, screen_name).input_config
+    component_props = copy.deepcopy(getattr(screen_module, screen_name).screen_components)
+    input_config = copy.deepcopy(getattr(screen_module, screen_name).input_config)
 
     component_props = inject_dynamic_content(component_props, dynamic_screen_components, 'screen_components')
     input_config['options'] = inject_dynamic_content(input_config['options'], dynamic_input_options, 'input_options')

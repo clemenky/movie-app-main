@@ -1,4 +1,4 @@
-from globals import UI_ICONS, MOVIE_SEARCH_ICONS
+from globals import UI_ICONS
 
 
 persistent_menu_options = [
@@ -16,21 +16,31 @@ persistent_menu_options = [
     }
 ]
 
+
 input_config = {
     'mode': 'selection',
     'options': [
-        {
-            'kind': 'dynamic_placeholder',
-            'id': 'dynamic_commands'
-        },
+        # {
+        #     'kind': 'dynamic_placeholder',
+        #     'id': 'dynamic_commands'
+        # },
         *persistent_menu_options
     ]
 }
 
 screen_components = [
     {
+        'component': 'title',
+        'icon': UI_ICONS['movie_watchlist'],
+        'text': 'Movie Watchlist',
+        'style': {
+            'icon': True,
+            'spacing_after': 1
+        }
+    },
+    {
         'component': 'dynamic_placeholder',
-        'id': 'movie_details'
+        'id': 'movie_watchlist'
     },
     {
         'component': 'divider',
@@ -39,14 +49,6 @@ screen_components = [
             'spacing_before': 1,
             'spacing_after': 1
         }
-    },
-    {
-        'component': 'text',
-        'text': 'Select an option:'
-    },
-    {
-        'component': 'dynamic_placeholder',
-        'id': 'dynamic_menu_options'
     },
     {
         'component': 'menu',
@@ -59,5 +61,5 @@ screen_components = [
     {
         'component': 'divider',
         'char': '='
-    }
+    },
 ]

@@ -24,8 +24,7 @@ class MovieApp:
                 self._navigate_back()
             elif self.next_screen_key == 'exit':
                 self._exit()
-            else:
-                self._navigate_to_next_screen()
+            self._navigate_to_next_screen()
 
     def _navigate_to_next_screen(self):
         screen_key = self.next_screen_key
@@ -36,14 +35,14 @@ class MovieApp:
         if screen_manager.is_stackable(screen_key):
             self.navigation_stack.append((screen_key, screen_params))
 
-        self._clear_screen()
+        #self._clear_screen()
         print(screen_params)
         self.next_screen_key, self.next_screen_params = screen_function(screen_params)
 
     def _navigate_home(self):
-        home_key = screen_manager.home_screen_key
-        self.navigation_stack = [(home_key, self.next_screen_params)]
-        self.next_screen_key, self.next_screen_params = screen_manager.get_screen_function(home_key)(self.next_screen_params)
+        self.next_screen_key = screen_manager.home_screen_key
+        self.next_screen_params = {}
+        self.navigation_stack = [(self.next_screen_key, self.next_screen_params)]
     
     def _navigate_back(self):
         self.navigation_stack.pop()

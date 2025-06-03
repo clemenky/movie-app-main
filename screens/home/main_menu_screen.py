@@ -26,7 +26,7 @@ input_config = {
             'icon': UI_ICONS['movie_watchlist'],
             'label': 'Movie Watchlist',
             'description': 'View and manage your watchlist',
-            'target': ('', {})
+            'target': ('movie_watchlist.display_watchlist_screen', {})
         },
         {
             'kind': 'static',

@@ -1,2 +1,3 @@
 import sections.home_section
 import sections.movie_search_section
+import sections.movie_watchlist_section

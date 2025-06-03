@@ -40,11 +40,17 @@ def get_selection_input(options):
         user_input = input(INPUT_SYMBOL + ' ').strip().lower()
 
         if user_input in input_map:
+            actions = input_map[user_input].get('actions', [])
+            run_actions(actions)
             target = input_map[user_input].get('target', ('', {}))
             return target
         
         print_input_error(error_shown)
         error_shown = True
+
+def run_actions(actions):
+    for action_func, action_params in actions:
+        action_func(action_params)
 
 def print_input_error(error_shown):
     if error_shown:

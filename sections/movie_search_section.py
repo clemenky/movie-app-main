@@ -19,7 +19,6 @@ def search_by_title_screen(context):
 def search_by_id_screen(context):
     return handle_screen(movie_search_screens, 'search_by_id_screen')
 
-# REMOVE SEARCH TYPE AND MAKE SURE SEARCH BY ID DOESNT POINT HERE, SHOULD GO DIRECTLY TO DISPLAYING MOVIE NOT SEARCH RESULTS
 @app_context.screen_manager.register('movie_search.search_results_screen', stackable=True)
 def search_results_screen(context):
     search_query = context.get('search_query')
@@ -30,11 +29,11 @@ def search_results_screen(context):
     total_pages = min(raw_response['result'].get('total_pages', 1), MAX_SEARCH_RESULTS_PAGES)
 
     movie_input_options = []
-    for index, result in enumerate(movie_results):
+    for index, movie_data in enumerate(movie_results):
         input_option = {
             'kind': 'static',
             'input': f'{index + 1}',
-            'target': ('movie_search.movie_details_screen', {'movie_id': result['id']})
+            'target': ('movie_search.movie_details_screen', {'movie_id': movie_data['id']})
         }
         movie_input_options.append(input_option)
 
@@ -93,7 +92,7 @@ def search_results_screen(context):
     return handle_screen(movie_search_screens, 'search_results_screen', dynamic_screen_components, dynamic_input_options)
 
 
-# if not reused, combine input option generating for movie numbers with this
+# if not reused, combine input option generating loop for movie numbers with this
 def format_search_results(search_results):
     formatted_results = []
     for index, result in enumerate(search_results):
@@ -109,18 +108,59 @@ def format_search_results(search_results):
 @app_context.screen_manager.register('movie_search.movie_details_screen', stackable=True)
 def movie_details_screen(context):
     movie_id = context.get('movie_id')
-    raw_response = app_context.clients.movie_search_client.get_movie_details(movie_id)
-    movie_details = raw_response['result']
-    movie_details = parse_movie_details(raw_response)
+    raw_movie_data = app_context.clients.movie_search_client.get_movie_details(movie_id)
+    raw_movie_details = raw_movie_data.get('result', {})
+
+    movie_details = parse_movie_details(raw_movie_details)
+    movie_detail_components = get_movie_details_components(movie_details)
+
+    watchlist_client = app_context.clients.movie_watchlist_client
+    watchlist = watchlist_client.list_movies()['result']
+    movie_in_watchlist = any(movie.get('movie_id') == movie_id for movie in watchlist)
+    if movie_in_watchlist:
+        movie_detail_components.append({
+            'component': 'text',
+            'text': '\nℹ️ This movie is in your watchlist.'
+        })
+
+        watchlist_menu_component = {
+            'kind': 'static',
+            'input': '1',
+            'label': 'Remove from watchlist',
+            'actions': [(watchlist_client.delete_movie, {'movie_id': movie_id})],
+            'target': ('movie_search.movie_details_screen', {'movie_id': movie_id}),
+        }
+    else:
+        watchlist_menu_component = {
+            'kind': 'static',
+            'input': '1',
+            'label': 'Add to watchlist',
+            'actions': [(watchlist_client.add_movie, {
+                'movie_id': movie_id,
+                'movie_details': movie_details
+                })],
+            'target': ('movie_search.movie_details_screen', {'movie_id': movie_id}),
+        }
+
     dynamic_screen_components = {
-        'movie_details': get_movie_details_components(movie_details)
+        'movie_details': movie_detail_components,
+        'dynamic_menu_options': [{
+            'component': 'menu',
+            'options': [watchlist_menu_component],
+            'style': {
+                'option_format': 'square_brackets'
+            }
+        }]
     }
-    return handle_screen(movie_search_screens, 'movie_details_screen', dynamic_screen_components=dynamic_screen_components)
+
+    dynamic_input_options = {
+        'dynamic_commands': [watchlist_menu_component]
+    }
+
+    return handle_screen(movie_search_screens, 'movie_details_screen', dynamic_screen_components, dynamic_input_options)
 
 
-def parse_movie_details(raw_response):
-    movie_data = raw_response['result']
-
+def parse_movie_details(movie_data):
     # either sets to value or None or array or empty array
     movie_details = {
         'title': movie_data.get('title'),
