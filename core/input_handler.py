@@ -33,7 +33,11 @@ def get_text_input(options):
         error_shown = True
 
 def get_selection_input(options):
-    input_map = {opt.get('input'): opt for opt in options}
+    input_map = {
+        opt.get('input'): opt
+        for opt in options
+        if opt.get('kind') != 'display_only'
+    }
 
     error_shown = False
     while True:

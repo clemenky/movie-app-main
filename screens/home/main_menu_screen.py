@@ -36,21 +36,21 @@ input_config = {
             'description': 'Track your favorite movies',
             'target': ('', {})
         },
-        {
-            'kind': 'static',
-            'input': '8',
-            'icon': UI_ICONS['login'],
-            'label': 'Login',
-            'description': 'Required for movie watchlist and ratings',
-            'target': ('', {})
-        },
-        {
-            'kind': 'static',
-            'input': '9',
-            'icon': UI_ICONS['title_screen'],
-            'label': 'Title Screen',
-            'target': ('', {})
-        },
+        # {
+        #     'kind': 'static',
+        #     'input': '8',
+        #     'icon': UI_ICONS['login'],
+        #     'label': 'Login',
+        #     'description': 'Required for movie watchlist and ratings',
+        #     'target': ('', {})
+        # },
+        # {
+        #     'kind': 'static',
+        #     'input': '9',
+        #     'icon': UI_ICONS['title_screen'],
+        #     'label': 'Title Screen',
+        #     'target': ('', {})
+        # },
         {
             'kind': 'static',
             'input': '0',

@@ -18,17 +18,36 @@ def display_watchlist_screen(context):
     end_index = start_index + 20
     watchlist_page_items = watchlist[start_index:end_index]
 
+    delete_movie_input_options = []
+    for index, movie_data in enumerate(watchlist_page_items):
+        print(movie_data)
+        input_option = {
+            'kind': 'static',
+            'input': f'del {index + 1}',
+            'actions': [(watchlist_client.delete_movie, {'movie_id': movie_data['movie_id']})],
+            'target': ('movie_watchlist.display_watchlist_screen', {})
+        }
+        delete_movie_input_options.append(input_option)
+
     dynamic_screen_components = {
         'movie_watchlist': [{
             'component': 'text',
-            'text': format_watchlist_page(watchlist_page_items),
+            'text': format_watchlist_page(watchlist_page_items)
         }]
     }
 
-    return handle_screen(movie_watchlist_screens, 'display_watchlist_screen', dynamic_screen_components)
+    dynamic_input_options = {
+        'dynamic_commands': [*delete_movie_input_options]
+    }
+
+    return handle_screen(
+        movie_watchlist_screens,
+        'display_watchlist_screen',
+        dynamic_screen_components,
+        dynamic_input_options
+    )
 
 def format_watchlist_page(watchlist_page_items):
-    print(watchlist_page_items)
     watchlist_lines = []
     for index, item in enumerate(watchlist_page_items):
         movie_details = item.get('movie_details', {})

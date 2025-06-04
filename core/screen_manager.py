@@ -3,6 +3,8 @@ class ScreenManager:
         self._screens = {}
         self._non_stackable_screens = set()
         self.home_screen_key = 'home.main_menu_screen'
+        self.current_screen_state = ('home', {})
+        self._return_screen_state = None
 
     def register(self, screen_key, stackable=True):
         def decorator(screen_function):
@@ -23,3 +25,20 @@ class ScreenManager:
     
     def is_home_screen(self, screen_key):
         return screen_key == self.home_screen_key
+    
+    def get_current_screen_state(self):
+        return self.current_screen_state
+    
+    @property
+    def current_screen_key(self):
+        return self.current_screen_state[0]
+    
+    @property
+    def current_screen_params(self):
+        return self.current_screen_state[1]
+
+    def set_current_screen_state(self, screen_state):
+        self.current_screen_state = screen_state
+
+    def set_return_screen_state(self, screen_state):
+        self._return_screen_state = screen_state

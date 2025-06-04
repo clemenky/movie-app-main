@@ -4,15 +4,9 @@ from globals import UI_ICONS
 persistent_menu_options = [
     {
         'kind': 'display_only',
-        'input': 'rate <n>',
-        'label': 'Delete item n from watchlist',
-        'target': ('movie_watchlist.display_watchlist_screen', {})
-    },
-    {
-        'kind': 'display_only',
         'input': 'del <n>',
-        'label': 'Delete item n from watchlist',
-        'target': ('movie_watchlist.display_watchlist_screen', {})
+        'label': 'Delete rating n from ratings list',
+        'target': ('', {})
     },
     {
         'kind': 'static',
@@ -37,8 +31,8 @@ input_config = {
 screen_components = [
     {
         'component': 'title',
-        'icon': UI_ICONS['movie_watchlist'],
-        'text': 'Movie Watchlist',
+        'icon': UI_ICONS['movie_ratings'],
+        'text': 'Movie Ratings',
         'style': {
             'icon': True,
             'spacing_after': 1
@@ -46,7 +40,7 @@ screen_components = [
     },
     {
         'component': 'dynamic_placeholder',
-        'id': 'movie_watchlist'
+        'id': 'movie_ratings'
     },
     {
         'component': 'divider',
