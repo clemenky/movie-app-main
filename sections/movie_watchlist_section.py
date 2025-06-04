@@ -20,7 +20,6 @@ def display_watchlist_screen(context):
 
     delete_movie_input_options = []
     for index, movie_data in enumerate(watchlist_page_items):
-        print(movie_data)
         input_option = {
             'kind': 'static',
             'input': f'del {index + 1}',
@@ -28,6 +27,24 @@ def display_watchlist_screen(context):
             'target': ('movie_watchlist.display_watchlist_screen', {})
         }
         delete_movie_input_options.append(input_option)
+    
+    ratings = app_context.clients.movie_rating_client.list_ratings()['result']
+    rate_movie_input_options = []
+    for index, movie_data in enumerate(watchlist_page_items):
+        movie_id = movie_data['movie_id']
+        is_rated = any(rating['movie_id'] == movie_id for rating in ratings)
+
+        if not is_rated:
+            input_option = {
+                'kind': 'static',
+                'input': f'rate {index + 1}',
+                'actions': [(app_context.screen_manager.set_return_screen_state, {})],
+                'target': ('movie_rating.rate_movie_screen', {
+                    'movie_id': movie_id, 
+                    'movie_details': movie_data['movie_details']
+                })
+            }
+            rate_movie_input_options.append(input_option)
 
     dynamic_screen_components = {
         'movie_watchlist': [{
@@ -37,7 +54,7 @@ def display_watchlist_screen(context):
     }
 
     dynamic_input_options = {
-        'dynamic_commands': [*delete_movie_input_options]
+        'dynamic_commands': [*delete_movie_input_options, *rate_movie_input_options]
     }
 
     return handle_screen(
@@ -48,12 +65,21 @@ def display_watchlist_screen(context):
     )
 
 def format_watchlist_page(watchlist_page_items):
+    ratings = app_context.clients.movie_rating_client.list_ratings()['result']
     watchlist_lines = []
     for index, item in enumerate(watchlist_page_items):
         movie_details = item.get('movie_details', {})
         title = movie_details.get('title')
         release_year = movie_details.get('release_year')
 
-        watchlist_lines.append(f'{index + 1}. {title} ({release_year})')
+        movie_id = item['movie_id']
+        is_rated = any(rating['movie_id'] == movie_id for rating in ratings)
+        if is_rated:
+            rating = next((rating['rating'] for rating in ratings if rating['movie_id'] == movie_id), None)
+            rating = f' - {rating}/10'
+        else:
+            rating = ''
+
+        watchlist_lines.append(f'{index + 1}. {title} ({release_year}){rating}')
 
     return '\n'.join(watchlist_lines)

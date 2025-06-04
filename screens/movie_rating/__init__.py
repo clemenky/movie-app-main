@@ -1,0 +1,2 @@
+import screens.movie_rating.movie_ratings_screen
+import screens.movie_rating.rate_movie_screen

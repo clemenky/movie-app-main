@@ -39,6 +39,9 @@ class ScreenManager:
 
     def set_current_screen_state(self, screen_state):
         self.current_screen_state = screen_state
-
-    def set_return_screen_state(self, screen_state):
-        self._return_screen_state = screen_state
+    
+    def set_return_screen_state(self, params=None):
+        self._return_screen_state = self.current_screen_state
+    
+    def return_to_return_state(self, params=None):
+        self.set_current_screen_state(self._return_screen_state)

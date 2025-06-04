@@ -23,14 +23,10 @@ class MovieApp:
                 self._return_to_return_state()
             elif screen_key == 'exit':
                 self._exit()
-            print('navigating')
             self._navigate_to_next_screen()
-            print(self.navigation_stack)
 
     def _navigate_to_next_screen(self):
-        print('navigating to next screen')
         screen_key, screen_params = screen_manager.get_current_screen_state()
-        print(f'screen_key {screen_key} screen_params {screen_params}')
 
         screen_function = screen_manager.get_screen_function(screen_key)
         
@@ -44,11 +40,7 @@ class MovieApp:
         #self._clear_screen()
         #print(screen_params)
         next_screen_state = screen_function(screen_params)
-        print(f'next_screen_state {next_screen_state}')
         screen_manager.set_current_screen_state(next_screen_state)
-        print('set values')
-        print(f'set values: {screen_manager.get_current_screen_state()}')
-        print('set values')
 
     def _navigate_home(self):
         screen_manager.set_current_screen_state((screen_manager.home_screen_key, {}))
@@ -59,7 +51,7 @@ class MovieApp:
         screen_manager.set_current_screen_state(self.navigation_stack[-1])
 
     def _return_to_return_state(self):
-        self
+        screen_manager.return_to_return_state()
 
     def _exit(self):
         app_context.clients.close_all()

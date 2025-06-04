@@ -34,7 +34,7 @@ input_config = {
             'label': 'Movie Ratings',
             'icon': UI_ICONS['movie_ratings'],
             'description': 'Track your favorite movies',
-            'target': ('', {})
+            'target': ('movie_rating.movie_ratings_screen', {})
         },
         # {
         #     'kind': 'static',

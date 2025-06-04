@@ -4,8 +4,20 @@ from globals import UI_ICONS
 persistent_menu_options = [
     {
         'kind': 'display_only',
+        'input': 'rate <n>',
+        'label': 'Change rating of movie n',
+        'target': ('', {})
+    },
+    {
+        'kind': 'display_only',
         'input': 'del <n>',
-        'label': 'Delete rating n from ratings list',
+        'label': 'Delete rating of movie n from ratings list',
+        'target': ('', {})
+    },
+    {
+        'kind': 'display_only',
+        'input': 'recs <n>',
+        'label': 'Get movie recommendations for movie n',
         'target': ('', {})
     },
     {

@@ -5,7 +5,7 @@ persistent_menu_options = [
     {
         'kind': 'display_only',
         'input': 'rate <n>',
-        'label': 'Delete item n from watchlist',
+        'label': 'Add rating for item n',
         'target': ('movie_watchlist.display_watchlist_screen', {})
     },
     {
