@@ -20,5 +20,3 @@ class MovieSearchClient(BaseZmqClient):
                 'movie_id': movie_id
             }
         })
-        
-        
