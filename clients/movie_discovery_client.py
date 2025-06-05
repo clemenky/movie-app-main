@@ -24,7 +24,7 @@ class MovieDiscoveryClient(BaseZmqClient):
     def get_recommendations(self, movie_id, page=1):
         return self._send_request({
             'type': 'query',
-            'endpoint': 'get-recommendations',
+            'endpoint': 'movie-recommendations',
             'params': {
                 'movie_id': movie_id,
                 'page': page

@@ -19,4 +19,9 @@ MOVIE_SEARCH_ICONS = {
     'movie_details': '🎥'
 }
 
+MOVIE_DISCOVERY_ICONS = {
+    'trending_movies': '🔥',
+    'movie_recommendations': '✨'
+}
+
 DIVIDER_WIDTH = 64

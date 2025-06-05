@@ -18,7 +18,7 @@ input_config = {
             'icon': UI_ICONS['movie_discovery'],
             'label': 'Movie Discovery',
             'description': 'Browse trending and recommended movies',
-            'target': ('', {})
+            'target': ('movie_discovery.movie_discovery_screen', {})
         },
         {
             'kind': 'static',

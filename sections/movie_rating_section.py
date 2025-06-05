@@ -12,8 +12,8 @@ def movie_ratings_screen(context):
     for index, movie_data in enumerate(ratings):
         input_option = {
             'kind': 'static',
-            'input': f'recc {index + 1}',
-            'target': ('', {})
+            'input': f'recs {index + 1}',
+            'target': ('movie_discovery.movie_recommendations_screen', {'movie_id': movie_data['movie_id']})
         }
         movie_recommendation_input_options.append(input_option)
 

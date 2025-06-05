@@ -1,0 +1,4 @@
+import screens.movie_discovery.movie_discovery_screen
+import screens.movie_discovery.trending_movies_filter_screen
+import screens.movie_discovery.trending_movies_screen
+import screens.movie_discovery.movie_recommendations_screen

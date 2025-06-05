@@ -27,7 +27,6 @@ class MovieApp:
 
     def _navigate_to_next_screen(self):
         screen_key, screen_params = screen_manager.get_current_screen_state()
-
         screen_function = screen_manager.get_screen_function(screen_key)
         
         if screen_manager.is_stackable(screen_key):
