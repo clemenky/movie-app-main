@@ -95,9 +95,7 @@ def format_search_results(search_results):
 @app_context.screen_manager.register('movie_discovery.movie_recommendations_screen', stackable=True)
 def movie_recommendations_screen(context):
     page = context.get('page', 1)
-    print(context['movie_id'])
     raw_response = app_context.clients.movie_discovery_client.get_recommendations(context['movie_id'])
-    print(raw_response)
     movie_results = raw_response['data']['results']
     total_pages = min(raw_response['data'].get('total_pages', 1), MAX_SEARCH_RESULTS_PAGES)
 

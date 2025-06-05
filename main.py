@@ -36,7 +36,7 @@ class MovieApp:
             else:
                 self.navigation_stack.append((screen_key, screen_params))
 
-        #self._clear_screen()
+        self._clear_screen()
         #print(screen_params)
         next_screen_state = screen_function(screen_params)
         screen_manager.set_current_screen_state(next_screen_state)

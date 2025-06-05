@@ -38,7 +38,6 @@ def movie_ratings_screen(context):
 def format_ratings_page(ratings):
     ratings_lines = []
     for index, item in enumerate(ratings):
-        print(ratings)
         movie_details = item.get('movie_details', {})
         title = movie_details.get('title')
 
@@ -51,7 +50,6 @@ def format_ratings_page(ratings):
             rating = ''
 
         ratings_lines.append(f'{index + 1}. {title}{rating}')
-        print(ratings_lines)
 
     return '\n'.join(ratings_lines)
 
